@@ -5,13 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>URL Shortener</title>
 </head>
+
 <body>
     <h1>URL Shortener</h1>
     <input type="text" id="urlEntered" placeholder="Enter URL here">
     <button id="shorten-url">Shorten URL</button>
 
     <script>
-        const GITHUB_TOKEN = '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'; // Replace with your token (keep this secret!)
+        const GITHUB_TOKEN = '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'; // Replace with your token (keep this secret!)
         const REPO_OWNER = 'dhamejanishivam'; // Your GitHub username
         const REPO_NAME = 'UrlShortner'; // Your repository name
 
@@ -35,11 +36,12 @@
                 method: 'PUT',
                 headers: {
                     'Authorization': `token ${GITHUB_TOKEN}`,
+                    'Content-Type': 'application/json',
                     'Accept': 'application/vnd.github.v3+json'
                 },
                 body: JSON.stringify({
-                    message: 'Add index.html for URL shortener',
-                    content: base64Content,
+                    message: 'Creating a new file',
+                    content: btoa('Hello, World!'),
                     branch: 'main' // Specify the branch you want to push to
                 })
             });
