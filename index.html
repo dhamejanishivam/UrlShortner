@@ -1,1 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener</title>
+</head>
+<body>
+    <h1>URL Shortener</h1>
+    <input type="text" id="urlEntered" placeholder="Enter URL here">
+    <button id="shorten-url">Shorten URL</button>
+
+    <script>
+        const GITHUB_TOKEN = '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'; // Replace with your token (keep this secret!)
+        const REPO_OWNER = 'dhamejanishivam'; // Your GitHub username
+        const REPO_NAME = 'UrlShortner'; // Your repository name
+
+        let buttonA = document.getElementById("shorten-url");
+        buttonA.addEventListener("click", function() {
+            let urlValue = document.getElementById('urlEntered').value; // Get the URL from the input field
+            shortenUrl(urlValue);
+        });
+
+        async function shortenUrl(url) {
+            const randomString = Math.random().toString(36).substring(2, 10); // Generate a random string for folder name
+            const folderPath = `${randomString}/index.html`; // Path for the index.html file
+
+            // Define the HTML content as a string
+            let content = `<script> window.location.href = "${url}";`;
+
+            const base64Content = btoa(content); // Encode content in base64
+
+            const response = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${folderPath}`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `token ${GITHUB_TOKEN}`,
+                    'Accept': 'application/vnd.github.v3+json'
+                },
+                body: JSON.stringify({
+                    message: 'Add index.html for URL shortener',
+                    content: base64Content,
+                    branch: 'main' // Specify the branch you want to push to
+                })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log('URL shortened successfully:', data.content.html_url);
+                window.location.href=`${randomString}`;
+            } else {
+                const error = await response.json();
+                console.error('Error creating file:', error);
+            }
+        }
+    </script>
+</body>
+</html>
 
