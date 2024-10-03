@@ -11,7 +11,7 @@
     <button id="shorten-url">Shorten URL</button>
 
     <script>
-        const GITHUB_TOKEN = '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'; // Replace with your token (keep this secret!)
+        const GITHUB_TOKEN = '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'; // Replace with your token (keep this secret!)
         const REPO_OWNER = 'dhamejanishivam'; // Your GitHub username
         const REPO_NAME = 'UrlShortner'; // Your repository name
 
@@ -24,6 +24,7 @@
         async function shortenUrl(url) {
             const randomString = Math.random().toString(36).substring(2, 10); // Generate a random string for folder name
             const folderPath = `${randomString}/index.html`; // Path for the index.html file
+            // const folderPath = `abcdefg/index.html`; // Path for the index.html file
 
             // Define the HTML content as a string
             let content = `<script> window.location.href = "${url}";`;
@@ -46,7 +47,6 @@
             if (response.ok) {
                 const data = await response.json();
                 console.log('URL shortened successfully:', data.content.html_url);
-                window.location.href=`${randomString}`;
             } else {
                 const error = await response.json();
                 console.error('Error creating file:', error);
